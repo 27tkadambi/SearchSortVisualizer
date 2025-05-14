@@ -8,12 +8,15 @@ public class Main extends PApplet{
     //private int high; //do not tap on the glass it makes him scared
     //private int[] arr = new int[]{1,2,3,4,7}; //test
     private ArrayList<MyClass>  arr;
+    private int width = 600;
+    private int height = 600;
+
     public static void main(String[] args){
         PApplet.main("Main");
     }
 
     public void settings(){
-        size(600,600);
+        size(width, height);
 
     }
 
@@ -26,6 +29,10 @@ public class Main extends PApplet{
 
     public void draw(){
         background(255);
+        fill(0);
+        for (int i = 0; i < arr.size(); i++){
+            rect(width/arr.size() * i, height/arr.size() * i, width/arr.size(), height/arr.size());
+        }
         System.out.println(binarysearchRecursive(arr, 0, 4, 11)); //test
     }
 
