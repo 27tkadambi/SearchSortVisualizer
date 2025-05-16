@@ -12,6 +12,9 @@ public class Main extends PApplet{
     private String note; //message
     private boolean sort; //is it sorted?
     private int count; //keyPress count
+    int target;
+    String targetString;
+    boolean complete; //is target string complete?
 
     public static void main(String[] args){
         PApplet.main("Main");
@@ -29,6 +32,7 @@ public class Main extends PApplet{
         }
         low = 0;
         high = arr.size()-1;
+        targetString = "";
     }
 
     public void draw(){
@@ -38,22 +42,40 @@ public class Main extends PApplet{
             fill(205,242,122);
             rect(width/arr.size() * i, height/2, width/arr.size(), height/arr.size());
         }
+
         starting = "Instructions: \n 1. CLICK ANY KEY TO SORT \n 2. Enter a number between 0 & 29: \n 3. Click enter to start binary search";
         textSize(25);
+
         fill(137, 137, 245);
         text(starting, 50,100);
+        text("Number: " + targetString, 200, 100); //visualize?????
+        rect(450,400,140,75);
         fill(205,242,122);
+
         textSize(50);
+
+        fill(0);
+        text("RESET", 450, 450);
+        fill(205,242,122);
+
         if (sort){
             background(255); //clear canvas
+
+            fill(137, 137, 245);
+            rect(450,400,140,75);
+            fill(0);
+            text("RESET", 450, 450);
+
             for (int i = 0; i < arr.size(); i++){ //redraw squares
                 fill(205,242,122);
                 rect(width/arr.size() * i, height/2, width/arr.size(), height/arr.size());
             }
+
             fill(137, 137, 245);
-            text(note, 150,100); //message
+            text(note, 120,100); //message
             fill(205,242,122);
-            if (count > 1){ //recolor square
+
+            if (count > 1 && complete){ //recolor square
                 fill(137, 137, 245);
                 rect(width/arr.size() * middle, height/2, width/arr.size(), height/arr.size());
                 fill(205,242,122);
@@ -63,20 +85,51 @@ public class Main extends PApplet{
 
     public void keyPressed(){
         count++;
+        String digits = "0123456789";
         if(sort) {
-            if (binarySearchIterative(arr, 9) == -1) {
-                if (low == middle && middle == high) {
-                    note = "DOESN'T EXIST";
+            if(digits.indexOf(key) != -1){
+                targetString += key;
+                target = Integer.parseInt(targetString);
+            }
+            if (target > 29){
+                note = "TRY AGAIN, BAD INPUT";
+            }
+            if (digits.indexOf(key) == -1) {
+                complete = true;
+                if (binarySearchIterative(arr, target) == -1) {
+                    if (low == middle && middle == high) {
+                        note = "DOESN'T EXIST";
+                    } else {
+                        note = "NOT FOUND YET";
+                    }
                 } else {
-                    note = "NOT FOUND YET";
+                    note = "FOUND AT INDEX " + middle;
                 }
-            } else {
-                note = "FOUND AT INDEX " + middle;
             }
         }else{ // if it isn't sorted
             selectionSort(arr); //first press should sort
             note = "SORTED";
         }
+    }
+
+    public void mouseClicked(){
+        if ((mouseX >= 450 && mouseX <= 590) || (mouseY >= 400 && mouseY <= 475)) {
+            reset();
+        }
+    }
+
+    public void reset(){
+        background(0);
+        for (int i = 0; i < 30; i++){ //initialize the arraylist
+            arr.set(i, new MyClass(30-i));
+        }
+        sort = false;
+        complete = false;
+        targetString = "";
+        count = 0;
+        note = "";
+        low = 0;
+        high = arr.size() -1;
     }
 
     private int binarySearchIterative(ArrayList<MyClass> arr, int target){ //iterative binary
