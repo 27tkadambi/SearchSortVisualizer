@@ -3,16 +3,15 @@ import java.util.ArrayList;
 
 public class Main extends PApplet{
 
-    private int low; //break glass in case of non-recursive binary search
-    private int middle;
-    private int high; //do not tap on the glass it makes him scared
-    //private int[] arr = new int[]{1,2,3,4,7}; //test
-    private ArrayList<MyClass>  arr;
-    private int width = 600;
-    private int height = 600;
-    private String note;
-    private boolean sort;
-    private int count;
+    private int low; //for iterative binary search
+    private int middle; //for iterative binary search
+    private int high; //for iterative binary search
+    private ArrayList<MyClass> arr;
+    private int width = 600; //canvas
+    private int height = 600; //canvas
+    private String note; //message
+    private boolean sort; //is it sorted?
+    private int count; //keyPress count
 
     public static void main(String[] args){
         PApplet.main("Main");
@@ -25,42 +24,41 @@ public class Main extends PApplet{
 
     public void setup(){
         arr = new ArrayList<MyClass>();
-        for (int i = 0; i < 10; i++){
-            arr.add(new MyClass(10-i));
+        for (int i = 0; i < 30; i++){ //initialize the arraylist
+            arr.add(new MyClass(30-i));
         }
         low = 0;
         high = arr.size()-1;
     }
 
     public void draw(){
+        String starting;
         background(255);
-        textSize(50);
         for (int i = 0; i < arr.size(); i++){
             fill(205,242,122);
             rect(width/arr.size() * i, height/2, width/arr.size(), height/arr.size());
         }
-
+        starting = "Instructions: \n 1. CLICK ANY KEY TO SORT \n 2. Enter a number between 0 & 29: \n 3. Click enter to start binary search";
+        textSize(25);
+        fill(137, 137, 245);
+        text(starting, 50,100);
+        fill(205,242,122);
+        textSize(50);
         if (sort){
-            background(255);
-            for (int i = 0; i < arr.size(); i++){
+            background(255); //clear canvas
+            for (int i = 0; i < arr.size(); i++){ //redraw squares
                 fill(205,242,122);
                 rect(width/arr.size() * i, height/2, width/arr.size(), height/arr.size());
             }
             fill(137, 137, 245);
-            text(note, 150,100);
+            text(note, 150,100); //message
             fill(205,242,122);
-            if (count > 1){
+            if (count > 1){ //recolor square
                 fill(137, 137, 245);
                 rect(width/arr.size() * middle, height/2, width/arr.size(), height/arr.size());
                 fill(205,242,122);
             }
-        }else{
-            fill(137, 137, 245);
-            text("CLICK ANY KEY TO SORT", 50,100);
-            fill(205,242,122);
         }
-
-        //System.out.println(binarysearchIterative(arr, 11)); //test
     }
 
     public void keyPressed(){
@@ -81,7 +79,7 @@ public class Main extends PApplet{
         }
     }
 
-    private int binarySearchIterative(ArrayList<MyClass> arr, int target){
+    private int binarySearchIterative(ArrayList<MyClass> arr, int target){ //iterative binary
         middle = (low+high)/2;
         if (arr.get(middle).getiD() != target){
             if (low == middle && middle == high){
