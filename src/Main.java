@@ -38,7 +38,6 @@ public class Main extends PApplet{
         for (int i = 0; i < arr.size(); i++){
             fill(205,242,122);
             rect(width/arr.size() * i, height/2, width/arr.size(), height/arr.size());
-            text(arr.get(i).getiD(), width/arr.size() * i, height/2);
         }
 
         if (sort){
@@ -46,17 +45,19 @@ public class Main extends PApplet{
             for (int i = 0; i < arr.size(); i++){
                 fill(205,242,122);
                 rect(width/arr.size() * i, height/2, width/arr.size(), height/arr.size());
-                text(arr.get(i).getiD(), width/arr.size() * i, height/2);
             }
-            text(note, 50,50);
-            if (count > 1){
-            fill(12,244,32);
-            rect(width/arr.size() * middle, height/2, width/arr.size(), height/arr.size());
+            fill(137, 137, 245);
+            text(note, 150,100);
             fill(205,242,122);
+            if (count > 1){
+                fill(137, 137, 245);
+                rect(width/arr.size() * middle, height/2, width/arr.size(), height/arr.size());
+                fill(205,242,122);
             }
         }else{
+            fill(137, 137, 245);
+            text("CLICK ANY KEY TO SORT", 50,100);
             fill(205,242,122);
-            text("Click any key to sort", 50,50);
         }
 
         //System.out.println(binarysearchIterative(arr, 11)); //test
@@ -65,7 +66,7 @@ public class Main extends PApplet{
     public void keyPressed(){
         count++;
         if(sort) {
-            if (binarysearchIterative(arr, 9) == -1) {
+            if (binarySearchIterative(arr, 9) == -1) {
                 if (low == middle && middle == high) {
                     note = "DOESN'T EXIST";
                 } else {
@@ -80,7 +81,7 @@ public class Main extends PApplet{
         }
     }
 
-    private int binarysearchIterative(ArrayList<MyClass> arr, int target){
+    private int binarySearchIterative(ArrayList<MyClass> arr, int target){
         middle = (low+high)/2;
         if (arr.get(middle).getiD() != target){
             if (low == middle && middle == high){
@@ -88,11 +89,9 @@ public class Main extends PApplet{
             }
             if (arr.get(middle).getiD() > target){
                 high = middle -1;
-                middle = (low+high)/2;
                 return -1;
-            }else {
+            }else{
                 low = middle + 1;
-                middle = (low + high) / 2;
                 return -1;
             }
         }
