@@ -112,6 +112,7 @@ public class Main extends PApplet{
             arr.set(c, arr.get(min));
             arr.set(min, temp);
         }
+        sort = true;
     }
 
 
