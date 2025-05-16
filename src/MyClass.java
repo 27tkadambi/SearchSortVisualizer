@@ -29,4 +29,8 @@ public class MyClass implements Comparable<MyClass>{
     public int getiD(){
         return iD;
     }
+
+    public String toString(){
+        return "Species: " + species +"\nSepal Length: " + sepalLength + "\nSepal Width: " + sepalWidth + "\nPetal Length: " + petalLength + "\nPetal Width: " + petalWidth;
+    }
 }

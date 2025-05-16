@@ -17,6 +17,7 @@ public class Main extends PApplet{
     int target;
     String targetString;
     boolean complete; //is target string complete?
+    String found; //knowledge of found iris
 
     public static void main(String[] args){
         PApplet.main("Main");
@@ -28,12 +29,11 @@ public class Main extends PApplet{
     }
 
     public void setup(){
-        Table table = new Table();
-        table = loadTable("iris.csv", "header");
+        Table table = loadTable("iris.csv", "header");
         arr = new ArrayList<MyClass>();
 
         for (TableRow row : table.rows()){ //initialize the arraylist
-            int iD = row.getInt("iD");
+            int iD = row.getInt("Id");
             int sepalLength = row.getInt("SepalLengthCm");
             int sepalWidth = row.getInt("SepalWidthCm");
             int petalLength = row.getInt("PetalLengthCm");
@@ -44,6 +44,7 @@ public class Main extends PApplet{
         low = 0;
         high = arr.size()-1;
         targetString = "";
+        found = "";
     }
 
     public void draw(){
@@ -54,13 +55,13 @@ public class Main extends PApplet{
             rect(width/arr.size() * i, height/2, width/arr.size(), height/arr.size());
         }
 
-        starting = "Instructions: \n 1. CLICK ANY KEY TO SORT \n 2. Enter a number between 0 & 29: \n 3. Click enter to start binary search";
+        starting = "Instructions: \n 1. CLICK ANY KEY TO SORT \n 2. Enter a number between 0 & 29. \n 3. Click enter to start binary search";
         textSize(25);
 
         fill(137, 137, 245);
         text(starting, 50,100);
-        text("Number: " + targetString, 200, 100); //visualize?????
-        rect(450,400,140,75);
+        rect(450,400,140,75); //reset button
+        text("Number: " + targetString, 400,  50); //visualize?????
         fill(205,242,122);
 
         textSize(50);
@@ -83,7 +84,11 @@ public class Main extends PApplet{
             }
 
             fill(137, 137, 245);
-            text(note, 120,100); //message
+            text(note, 120,120); //message
+            textSize(25);
+            text("Number: " + targetString, 400,  50); //visualize?????
+            text(found, 100, 400);
+            textSize(50);
             fill(205,242,122);
 
             if (count > 1 && complete){ //recolor square
@@ -115,6 +120,7 @@ public class Main extends PApplet{
                     }
                 } else {
                     note = "FOUND AT INDEX " + middle;
+                    found = arr.get(middle).toString();
                 }
             }
         }else{ // if it isn't sorted
