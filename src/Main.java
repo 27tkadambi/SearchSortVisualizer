@@ -61,7 +61,7 @@ public class Main extends PApplet{
         fill(137, 137, 245);
         text(starting, 50,100);
         rect(450,400,140,75); //reset button
-        text("Number: " + targetString, 400,  50); //visualize?????
+        text("Number: " + targetString, 400,  50); //visualize
         fill(205,242,122);
 
         textSize(50);
