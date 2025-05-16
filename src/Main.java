@@ -12,6 +12,7 @@ public class Main extends PApplet{
     private int height = 600;
     private String note;
     private boolean sort;
+    private int count;
 
     public static void main(String[] args){
         PApplet.main("Main");
@@ -41,28 +42,41 @@ public class Main extends PApplet{
         }
 
         if (sort){
+            background(255);
+            for (int i = 0; i < arr.size(); i++){
+                fill(205,242,122);
+                rect(width/arr.size() * i, height/2, width/arr.size(), height/arr.size());
+                text(arr.get(i).getiD(), width/arr.size() * i, height/2);
+            }
             text(note, 50,50);
+            if (count > 1){
             fill(12,244,32);
             rect(width/arr.size() * middle, height/2, width/arr.size(), height/arr.size());
             fill(205,242,122);
+            }
+        }else{
+            fill(205,242,122);
+            text("Click any key to sort", 50,50);
         }
 
         //System.out.println(binarysearchIterative(arr, 11)); //test
     }
 
     public void keyPressed(){
-        /*if (!sort){
-            selectionSort(arr);
-        }*/
-        selectionSort(arr);
-        if (binarysearchIterative(arr, 1) == -1){
-            if (low == middle && middle == high){
-                note = "DOESN'T EXIST";
-            }else{
-                note = "NOT FOUND YET";
+        count++;
+        if(sort) {
+            if (binarysearchIterative(arr, 9) == -1) {
+                if (low == middle && middle == high) {
+                    note = "DOESN'T EXIST";
+                } else {
+                    note = "NOT FOUND YET";
+                }
+            } else {
+                note = "FOUND AT INDEX " + middle;
             }
-        }else{
-            note = "FOUND AT INDEX " + middle;
+        }else{ // if it isn't sorted
+            selectionSort(arr); //first press should sort
+            note = "SORTED";
         }
     }
 
@@ -86,26 +100,20 @@ public class Main extends PApplet{
     }
 
     private void selectionSort(ArrayList<MyClass> arr) {
-        for (int curIndex = 0; curIndex < arr.size() - 1; curIndex++) {
-            int minIndex = findMin(arr, curIndex);
-            swap(arr, curIndex, minIndex);
-            sort = true;
-        }
-    }
-    private int findMin(ArrayList<MyClass> arr, int startingIndex) {
-        int minIndex = startingIndex;
-        for (int i = minIndex + 1; i < arr.size(); i++) {
-            if (arr.get(i).compareTo(arr.get(minIndex)) == -1) {
-                minIndex = i;
+        int min;
+        for (int c = 0; c < arr.size() - 1; c++) {
+            min = c;
+            for (int i = min + 1; i < arr.size(); i++) {
+                if (arr.get(i).compareTo(arr.get(min)) == -1) {
+                    min = i;
+                }
             }
+            MyClass temp = arr.get(c);
+            arr.set(c, arr.get(min));
+            arr.set(min, temp);
         }
-        return minIndex;
     }
-    private void swap(ArrayList<MyClass> arr, int x, int y) {
-        MyClass temp = arr.get(x);
-        arr.set(x,(arr.get(y)));
-        arr.set(y,temp);
-    }
+
 
 
     /*private int binarysearchRecursive(ArrayList<MyClass> arr, int low, int high, int target){ //*frankenstein voice* IT'S ALIVE! IT'S ALIVE!

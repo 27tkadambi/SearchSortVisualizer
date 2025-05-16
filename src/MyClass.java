@@ -1,5 +1,9 @@
 public class MyClass implements Comparable<MyClass>{
     private int iD;
+    private int sepalLength;
+    private int sepalWidth;
+    private int petalLength;
+    private int petalWidth;
 
     public MyClass(int iD){
         this.iD = iD;
