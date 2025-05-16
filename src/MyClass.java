@@ -4,9 +4,16 @@ public class MyClass implements Comparable<MyClass>{
     private int sepalWidth;
     private int petalLength;
     private int petalWidth;
+    private String species;
 
-    public MyClass(int iD){
+    public MyClass(int iD, int sepalLength, int sepalWidth, int petalLength, int petalWidth, String species){
+
         this.iD = iD;
+        this.sepalLength = sepalLength;
+        this.sepalWidth = sepalWidth;
+        this.petalLength = petalLength;
+        this.petalWidth = petalWidth;
+        this.species = species;
     }
 
     public int compareTo(MyClass another){

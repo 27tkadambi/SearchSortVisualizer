@@ -1,5 +1,7 @@
 import processing.core.PApplet;
 import java.util.ArrayList;
+import processing.data.Table;
+import processing.data.TableRow;
 
 public class Main extends PApplet{
 
@@ -26,9 +28,18 @@ public class Main extends PApplet{
     }
 
     public void setup(){
+        Table table = new Table();
+        table = loadTable("iris.csv", "header");
         arr = new ArrayList<MyClass>();
-        for (int i = 0; i < 30; i++){ //initialize the arraylist
-            arr.add(new MyClass(30-i));
+
+        for (TableRow row : table.rows()){ //initialize the arraylist
+            int iD = row.getInt("iD");
+            int sepalLength = row.getInt("SepalLengthCm");
+            int sepalWidth = row.getInt("SepalWidthCm");
+            int petalLength = row.getInt("PetalLengthCm");
+            int petalWidth = row.getInt("PetalWidthCm");
+            String species = row.getString("Species");
+            arr.add(new MyClass(iD, sepalLength, sepalWidth, petalLength, petalWidth, species));
         }
         low = 0;
         high = arr.size()-1;
@@ -120,16 +131,11 @@ public class Main extends PApplet{
 
     public void reset(){
         background(0);
-        for (int i = 0; i < 30; i++){ //initialize the arraylist
-            arr.set(i, new MyClass(30-i));
-        }
         sort = false;
         complete = false;
-        targetString = "";
         count = 0;
         note = "";
-        low = 0;
-        high = arr.size() -1;
+        setup();
     }
 
     private int binarySearchIterative(ArrayList<MyClass> arr, int target){ //iterative binary
